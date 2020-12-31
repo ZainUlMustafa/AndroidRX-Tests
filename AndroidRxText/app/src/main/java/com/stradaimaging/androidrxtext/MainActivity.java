@@ -96,13 +96,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
 
-        stateObservable = getStateObservable();
-        stateObserver = getStateObserver();
-        stateObservable
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(stateObserver);
-
         button.setOnClickListener(view -> {
             ++state.counter;
             changeState();
@@ -116,9 +109,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+        stateObservable = getStateObservable();
+        stateObserver = getStateObserver();
+        stateObservable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(stateObserver);
+
         button = findViewById(R.id.button);
         textView = findViewById(R.id.textView);
-
         button1 = findViewById(R.id.button1);
         textView1 = findViewById(R.id.textView1);
 
