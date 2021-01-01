@@ -22,13 +22,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import io.reactivex.rxjava3.subjects.Subject;
 
-public class MainActivity extends AppCompatActivity {
+public class SecondActivity extends AppCompatActivity {
 
     private Button button;
     private TextView textView;
-    private Button button1;
-    private TextView textView1;
-    private Button button2;
     private final String TAG = "LOGS";
 
     /*** STATE ***/
@@ -39,13 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Disposable disposable;
 
     static class State implements Serializable {
-        int counter;
-        boolean isLower;
-        String text;
         public State(){
-            counter = 0;
-            isLower = true;
-            text = "something";
         }
     }
 
@@ -62,9 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onNext(@NonNull State state) {
-                textView.setText(String.valueOf(state.counter));
-                button.setText(String.format("Count: %s with text: %s", state.counter, state.text));
-                textView1.setText(state.text);
             }
 
             @Override
@@ -90,12 +78,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /*** STATE ***/
-
-    /*** MAIN CODE ***/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_second);
         init();
         if (savedInstanceState != null) {
             state = gson.fromJson(savedInstanceState.getString("state"), State.class);
@@ -103,17 +89,8 @@ public class MainActivity extends AppCompatActivity {
         setState();
 
         button.setOnClickListener(view -> {
-            ++state.counter;
-            setState();
+            finish();
         });
-
-        button1.setOnClickListener(view -> {
-            state.text = state.isLower ? state.text.toUpperCase() : state.text.toLowerCase();
-            state.isLower = !state.isLower;
-            setState();
-        });
-
-        button2.setOnClickListener(view -> startActivity(new Intent(this, SecondActivity.class)));
     }
 
     private void init() {
@@ -126,9 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
         button = findViewById(R.id.button);
         textView = findViewById(R.id.textView);
-        button1 = findViewById(R.id.button1);
-        textView1 = findViewById(R.id.textView1);
-        button2 = findViewById(R.id.button2);
 
     }
 
