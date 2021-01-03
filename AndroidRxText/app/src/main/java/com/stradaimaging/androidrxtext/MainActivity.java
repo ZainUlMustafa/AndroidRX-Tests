@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private @NonNull Observable<Long> getVarObservable() {
-        return Observable.interval(500, TimeUnit.MILLISECONDS);
+        return Observable.interval(1000, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                 varObservable
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .map(integer -> this.state.counter%5 == 0 ? ++this.state.factorCounter : this.state.factorCounter)
+                        .map(integer -> integer % 5 == 0 ? ++this.state.factorCounter : this.state.factorCounter)
                         .subscribeWith(textObserver)
         );
     }
